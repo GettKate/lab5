@@ -1,0 +1,81 @@
+#include <iostream>
+#include <ctime>
+#include <clocale>
+
+void poisk(int** matrix, int row, int col)
+{
+	int k = 0;
+	std::cout << "Отрицательные элементы массива заштрихованной области : " << "\n";
+	std::cout << "---------------------------------\n";
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			if ((i >= j) && (i + j <= row - 1)&&(matrix[i][j]<0))
+			{
+				k++;
+				std::cout << &matrix[i][j];
+				if (k % 6 == 0) std::cout << "\n";
+				else std::cout << "\t";
+			}
+			if ((i <= j) && (i + j >= col - 1) && (matrix[i][j] < 0))
+			{
+				if ((i >= j) && (i + j <= row - 1) && (matrix[i][j] < 0))
+				{
+					continue;
+				}
+				else 
+				{
+					k++;
+					std::cout << &matrix[i][j];
+					if (k % 6 == 0) std::cout << "\n";
+					else std::cout << "\t";
+				}
+			}
+		}
+		
+	}
+	std::cout << "\n---------------------------------\n";
+}
+
+using namespace std;
+
+int main()
+{
+	srand(time(NULL));
+	setlocale(LC_ALL, "Russian");
+	int s = 1;
+	do
+	{
+		int a, b;
+		cout << "Предупреждение! Поиск отрицательных элементов заштрихованной области будет выполнен правильно только в том случае, если матрица квадратная" << endl;
+		cout << ".....................................\n";
+		cout << "Введите количество строк массива : ";
+		cin >> a;
+		cout << "Введите количество столбцов массива : ";
+		cin >> b;
+		int **array = new int*[a];
+		for (int i = 0; i < a; i++)
+		{
+			array[i] = new int[b];
+		}
+		cout << "---------------------------------\n";
+		for (int i = 0; i < a; i++)
+		{
+			for (int j = 0; j < b; j++)
+			{
+				array[i][j] = rand() % 10 - 5;
+				cout.width(3);
+				cout << array[i][j];
+				if ((j + 1) % b == 0) cout << "\n";
+				else cout << "\t";
+			}
+		}
+		cout << "---------------------------------\n";
+		poisk(array, a, b);
+		delete[] array;
+		cout << "\nЖелаете повторить программу? (1/0)"<<endl;
+		cin >> s;
+		cout << "\n";
+	} while (s == 1);
+}
